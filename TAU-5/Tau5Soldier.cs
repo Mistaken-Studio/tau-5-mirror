@@ -23,7 +23,7 @@ namespace Mistaken.TAU5
     public class Tau5Soldier : MistakenCustomRole
     {
         /// <inheritdoc/>
-        public override MistakenCustomRoles CustomRole => MistakenCustomRoles.TAU5;
+        public override MistakenCustomRoles CustomRole => MistakenCustomRoles.TAU_5;
 
         /// <inheritdoc/>
         public override RoleType Role { get; set; } = RoleType.NtfCaptain;
