@@ -78,18 +78,12 @@ namespace Mistaken.TAU5
             if (ev.Target.HasItem(ItemType.SCP500))
             {
                 ev.IsAllowed = false;
+                ev.Target.Health = 2;
+                ev.Target.ArtificialHealth = 0;
+                ev.Target.Hurt(1, ev.DamageType, attackerId: ev.Attacker.Id);
                 var item = ev.Target.Items.First(x => x.Type == ItemType.SCP500);
+                ev.Target.CurrentItem = item;
                 (item.Base as Scp500).ServerOnUsingCompleted();
-                ev.Target.EnableEffect<CustomPlayerEffects.Invigorated>(30);
-                var effect = ev.Target.GetEffect(Exiled.API.Enums.EffectType.Scp207);
-                byte oldIntensity = effect.Intensity;
-                effect.Intensity = 4;
-                effect.ServerChangeDuration(15, true);
-                MEC.Timing.CallDelayed(16, () => effect.Intensity = oldIntensity);
-                ev.Target.ArtificialHealth += 1;
-                RevivedShield.Ini<RevivedShield>(ev.Target);
-
-                // ev.Target.RemoveItem(item);
                 ev.Target.SetGUI(nameof(SelfReviveAbility), PseudoGUIPosition.BOTTOM, "<b>Injected <color=yellow>SCP-500</color> to prevent death</b>", 5);
             }
         }
