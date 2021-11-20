@@ -8,8 +8,8 @@
     <ProjectGuid>{DF96F54D-AB24-44BD-8E1A-71A01761DDEE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mistaken.TAU_5</RootNamespace>
-    <AssemblyName>Mistaken.TAU_5</AssemblyName>
+    <RootNamespace>Mistaken.TAU5</RootNamespace>
+    <AssemblyName>Mistaken.TAU5</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -23,7 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
-    <DocumentationFile>bin\Debug\Mistaken.TAU_5.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Mistaken.TAU5.xml</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

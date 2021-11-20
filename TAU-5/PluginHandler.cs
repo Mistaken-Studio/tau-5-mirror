@@ -8,7 +8,7 @@ using System;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 
-namespace Mistaken.TAU_5
+namespace Mistaken.TAU5
 {
     /// <inheritdoc/>
     public class PluginHandler : Plugin<Config>

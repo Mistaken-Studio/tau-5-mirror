@@ -11,7 +11,7 @@ using InventorySystem.Items.Usables;
 using Mistaken.API.Extensions;
 using Mistaken.API.GUI;
 
-namespace Mistaken.TAU_5
+namespace Mistaken.TAU5
 {
     /// <inheritdoc/>
     public class SelfReviveAbility : PassiveAbility

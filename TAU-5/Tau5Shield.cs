@@ -6,7 +6,7 @@
 
 using Mistaken.API.Shield;
 
-namespace Mistaken.TAU_5
+namespace Mistaken.TAU5
 {
     /// <inheritdoc/>
     public class Tau5Shield : Shield

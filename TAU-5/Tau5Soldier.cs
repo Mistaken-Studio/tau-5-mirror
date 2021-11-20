@@ -17,13 +17,13 @@ using Mistaken.API.GUI;
 using Mistaken.RoundLogger;
 using Respawning;
 
-namespace Mistaken.TAU_5
+namespace Mistaken.TAU5
 {
     /// <inheritdoc/>
     public class Tau5Soldier : MistakenCustomRole
     {
         /// <inheritdoc/>
-        public override MistakenCustomRoles CustomRole => MistakenCustomRoles.TAU_5;
+        public override MistakenCustomRoles CustomRole => MistakenCustomRoles.TAU5;
 
         /// <inheritdoc/>
         public override RoleType Role { get; set; } = RoleType.NtfCaptain;

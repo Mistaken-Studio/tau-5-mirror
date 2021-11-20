@@ -7,7 +7,7 @@
 using System.ComponentModel;
 using Mistaken.Updater.Config;
 
-namespace Mistaken.TAU_5
+namespace Mistaken.TAU5
 {
     /// <inheritdoc/>
     public class Config : IAutoUpdatableConfig
