@@ -5,11 +5,14 @@
 // -----------------------------------------------------------------------
 
 using System.Linq;
+using CustomPlayerEffects;
 using Exiled.API.Features;
 using Exiled.CustomRoles.API.Features;
 using InventorySystem.Items.Usables;
 using Mistaken.API.Extensions;
 using Mistaken.API.GUI;
+using Mistaken.API.Shield;
+using UnityEngine;
 
 namespace Mistaken.TAU5
 {
@@ -76,9 +79,18 @@ namespace Mistaken.TAU5
             {
                 ev.IsAllowed = false;
                 var item = ev.Target.Items.First(x => x.Type == ItemType.SCP500);
-                (item.Base as Scp500).ActivateEffects();
-                ev.Target.RemoveItem(item);
-                ev.Target.SetGUI(nameof(SelfReviveAbility), PseudoGUIPosition.BOTTOM, "Injected SCP-500 to prevent death", 5);
+                (item.Base as Scp500).ServerOnUsingCompleted();
+                ev.Target.EnableEffect<CustomPlayerEffects.Invigorated>(30);
+                var effect = ev.Target.GetEffect(Exiled.API.Enums.EffectType.Scp207);
+                byte oldIntensity = effect.Intensity;
+                effect.Intensity = 4;
+                effect.ServerChangeDuration(15, true);
+                MEC.Timing.CallDelayed(16, () => effect.Intensity = oldIntensity);
+                ev.Target.ArtificialHealth += 1;
+                RevivedShield.Ini<RevivedShield>(ev.Target);
+
+                // ev.Target.RemoveItem(item);
+                ev.Target.SetGUI(nameof(SelfReviveAbility), PseudoGUIPosition.BOTTOM, "<b>Injected <color=yellow>SCP-500</color> to prevent death</b>", 5);
             }
         }
     }

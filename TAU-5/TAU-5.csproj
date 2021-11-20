@@ -59,6 +59,7 @@
     <Compile Include="PluginHandler.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RevivedShield.cs" />
     <Compile Include="SelfReviveAbility.cs" />
     <Compile Include="Tau5Shield.cs" />
     <Compile Include="Tau5Soldier.cs" />
