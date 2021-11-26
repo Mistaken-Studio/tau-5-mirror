@@ -5,11 +5,14 @@
 // -----------------------------------------------------------------------
 
 using System.Linq;
+using CustomPlayerEffects;
 using Exiled.API.Features;
 using Exiled.CustomRoles.API.Features;
 using InventorySystem.Items.Usables;
 using Mistaken.API.Extensions;
 using Mistaken.API.GUI;
+using Mistaken.API.Shield;
+using UnityEngine;
 
 namespace Mistaken.TAU5
 {
@@ -75,10 +78,13 @@ namespace Mistaken.TAU5
             if (ev.Target.HasItem(ItemType.SCP500))
             {
                 ev.IsAllowed = false;
+                ev.Target.Health = 2;
+                ev.Target.ArtificialHealth = 0;
+                ev.Target.Hurt(1, ev.DamageType, attackerId: ev.Attacker.Id);
                 var item = ev.Target.Items.First(x => x.Type == ItemType.SCP500);
-                (item.Base as Scp500).ActivateEffects();
-                ev.Target.RemoveItem(item);
-                ev.Target.SetGUI(nameof(SelfReviveAbility), PseudoGUIPosition.BOTTOM, "Injected SCP-500 to prevent death", 5);
+                ev.Target.CurrentItem = item;
+                (item.Base as Scp500).ServerOnUsingCompleted();
+                ev.Target.SetGUI(nameof(SelfReviveAbility), PseudoGUIPosition.BOTTOM, "<b>Injected <color=yellow>SCP-500</color> to prevent death</b>", 5);
             }
         }
     }
