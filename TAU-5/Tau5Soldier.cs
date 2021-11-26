@@ -81,26 +81,26 @@ namespace Mistaken.TAU5
         };
 
         /// <inheritdoc/>
+        public override bool SetLatestUnitName => true;
+
+        /// <inheritdoc/>
+        public override Dictionary<ItemType, ushort> Ammo => new Dictionary<ItemType, ushort>
+        {
+            { ItemType.Ammo556x45, 500 },
+            { ItemType.Ammo9x19, 500 },
+            { ItemType.Ammo12gauge, 100 },
+        };
+
+        /// <inheritdoc/>
+        public override string DisplayName => "<color=#C00>Żołnierz Tau-5 Samsara</color>";
+
+        /// <inheritdoc/>
         protected override void RoleAdded(Player player)
         {
             base.RoleAdded(player);
-            player.InfoArea &= ~PlayerInfoArea.Role;
-            var old = Respawning.RespawnManager.CurrentSequence();
-            Respawning.RespawnManager.Singleton._curSequence = RespawnManager.RespawnSequencePhase.SpawningSelectedTeam;
-            player.Role = this.Role;
-            player.ReferenceHub.characterClassManager.NetworkCurSpawnableTeamType = 2;
-            player.UnitName = Respawning.RespawnManager.Singleton.NamingManager.AllUnitNames.Last().UnitName;
-            Respawning.RespawnManager.Singleton._curSequence = old;
-            player.Ammo[ItemType.Ammo556x45] = 500;
-            player.Ammo[ItemType.Ammo9x19] = 500;
-            player.Ammo[ItemType.Ammo12gauge] = 100;
             player.ArtificialHealth = 200;
             Tau5Shield.Ini<Tau5Shield>(player);
             player.UnitName = RespawnManager.Singleton.NamingManager.AllUnitNames.Last().UnitName;
-            CustomInfoHandler.Set(player, "TAU5", $"<color={this.Color}><b>{this.Name}</b></color>");
-            player.SetGUI("TAU5", PseudoGUIPosition.MIDDLE, $"<size=150%>Jesteś <color=#C00>Żołnierzem Tau-5 Samsara</color></size><br>{this.Description}", 20);
-            player.SetGUI("TAU5_Info", PseudoGUIPosition.BOTTOM, "<color=yellow>Grasz</color> jako <color=#C00>Żołnierz Tau-5 Samsara</color>");
-            RLogger.Log("CUSTOM CLASSES", "TAU-5", $"Spawned {player.PlayerToString()} as Tau-5 Samsara Soldier");
 
             MEC.Timing.CallDelayed(1.6f, () =>
             {
@@ -134,15 +134,6 @@ namespace Mistaken.TAU5
                     },
                 };
             });
-        }
-
-        /// <inheritdoc/>
-        protected override void RoleRemoved(Player player)
-        {
-            base.RoleRemoved(player);
-            CustomInfoHandler.Set(player, "TAU5", null);
-            player.SetGUI("TAU5_Info", PseudoGUIPosition.BOTTOM, null);
-            RLogger.Log("CUSTOM CLASSES", "TAU-5", $"{player.PlayerToString()} is no longer Tau-5 Samsara Soldier");
         }
     }
 }
