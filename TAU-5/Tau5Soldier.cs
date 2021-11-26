@@ -38,7 +38,13 @@ namespace Mistaken.TAU5
         public override string Description { get; set; } = "Twoje zadanie: <color=red>Zneutralizować wszystko poza personelem fundacji</color><br><b>Karta O5 jest wbudowana w twoją rękę</b>, więc <color=yellow>możesz otwierać <b>wszystkie</b> drzwi nie używając karty</color>";
 
         /// <inheritdoc/>
-        public override KeycardPermissions BuiltInPermissions =>
+        public override List<CustomAbility> CustomAbilities { get; set; } = new List<CustomAbility>
+        {
+            SelfReviveAbility.Register(),
+        };
+
+        /// <inheritdoc/>
+        protected override KeycardPermissions BuiltInPermissions =>
             KeycardPermissions.ExitGates |
             KeycardPermissions.AlphaWarhead |
             KeycardPermissions.Intercom |
@@ -49,14 +55,6 @@ namespace Mistaken.TAU5
             KeycardPermissions.ContainmentLevelOne |
             KeycardPermissions.ContainmentLevelTwo |
             KeycardPermissions.ContainmentLevelThree;
-
-        /// <inheritdoc/>
-        public override List<CustomAbility> CustomAbilities { get; set; } = new List<CustomAbility>
-        {
-            SelfReviveAbility.Register(),
-        };
-
-        internal string Color => "#C00";
 
         /// <inheritdoc/>
         protected override bool KeepInventoryOnSpawn { get; set; } = false;
@@ -81,18 +79,23 @@ namespace Mistaken.TAU5
         };
 
         /// <inheritdoc/>
-        public override bool SetLatestUnitName => true;
+        protected override bool SetLatestUnitName => true;
 
         /// <inheritdoc/>
-        public override Dictionary<ItemType, ushort> Ammo => new Dictionary<ItemType, ushort>
+        protected override bool InfiniteAmmo => true;
+
+        /// <inheritdoc/>
+        protected override Dictionary<ItemType, ushort> Ammo => new Dictionary<ItemType, ushort>
         {
-            { ItemType.Ammo556x45, 500 },
-            { ItemType.Ammo9x19, 500 },
-            { ItemType.Ammo12gauge, 100 },
+            { ItemType.Ammo556x45, 1 },
+            { ItemType.Ammo9x19, 1 },
+            { ItemType.Ammo12gauge, 1 },
+            { ItemType.Ammo44cal, 1 },
+            { ItemType.Ammo762x39, 1 },
         };
 
         /// <inheritdoc/>
-        public override string DisplayName => "<color=#C00>Żołnierz Tau-5 Samsara</color>";
+        protected override string DisplayName => "<color=#C00>Żołnierz Tau-5 Samsara</color>";
 
         /// <inheritdoc/>
         protected override void RoleAdded(Player player)
@@ -100,40 +103,6 @@ namespace Mistaken.TAU5
             base.RoleAdded(player);
             player.ArtificialHealth = 200;
             Tau5Shield.Ini<Tau5Shield>(player);
-            player.UnitName = RespawnManager.Singleton.NamingManager.AllUnitNames.Last().UnitName;
-
-            MEC.Timing.CallDelayed(1.6f, () =>
-            {
-                var armor = player.Items.First(x => x.Type == ItemType.ArmorHeavy).Base as BodyArmor;
-                armor.AmmoLimits = new BodyArmor.ArmorAmmoLimit[]
-                {
-                    new BodyArmor.ArmorAmmoLimit
-                    {
-                        AmmoType = ItemType.Ammo12gauge,
-                        Limit = 100,
-                    },
-                    new BodyArmor.ArmorAmmoLimit
-                    {
-                        AmmoType = ItemType.Ammo44cal,
-                        Limit = 100,
-                    },
-                    new BodyArmor.ArmorAmmoLimit
-                    {
-                        AmmoType = ItemType.Ammo556x45,
-                        Limit = 500,
-                    },
-                    new BodyArmor.ArmorAmmoLimit
-                    {
-                        AmmoType = ItemType.Ammo762x39,
-                        Limit = 500,
-                    },
-                    new BodyArmor.ArmorAmmoLimit
-                    {
-                        AmmoType = ItemType.Ammo9x19,
-                        Limit = 500,
-                    },
-                };
-            });
         }
     }
 }
