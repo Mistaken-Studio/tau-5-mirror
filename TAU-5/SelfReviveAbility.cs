@@ -5,14 +5,12 @@
 // -----------------------------------------------------------------------
 
 using System.Linq;
-using CustomPlayerEffects;
-using Exiled.API.Features;
+using Exiled.API.Enums;
 using Exiled.CustomRoles.API.Features;
 using InventorySystem.Items.Usables;
 using Mistaken.API.Extensions;
 using Mistaken.API.GUI;
-using Mistaken.API.Shield;
-using UnityEngine;
+using PlayerStatsSystem;
 
 namespace Mistaken.TAU5
 {
@@ -55,32 +53,27 @@ namespace Mistaken.TAU5
             if (!this.Check(ev.Target))
                 return;
 
-            if (ev.Target.Health + (ev.Target.ArtificialHealth * ev.Target.ReferenceHub.playerStats.NetworkArtificialNormalRatio) - ev.Amount >= 1)
+            if (ev.Target.Health + (ev.Target.ArtificialHealth * ((AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1])._activeProcesses.LastOrDefault().Efficacy) - ev.Amount >= 1)
                 return;
 
-            if (ev.HitInformation.Tool == DamageTypes.Wall)
-                return;
-            if (ev.HitInformation.Tool == DamageTypes.Nuke)
-                return;
-            if (ev.HitInformation.Tool == DamageTypes.Contain)
-                return;
-            if (ev.HitInformation.Tool == DamageTypes.Decont)
-                return;
-            if (ev.HitInformation.Tool == DamageTypes.Flying)
-                return;
-            if (ev.HitInformation.Tool == DamageTypes.FriendlyFireDetector)
-                return;
-            if (ev.HitInformation.Tool == DamageTypes.Pocket)
-                return;
-            if (ev.HitInformation.Tool == DamageTypes.Recontainment)
-                return;
+            switch (ev.Handler.Type)
+            {
+                case DamageType.Crushed:
+                case DamageType.Warhead:
+                case DamageType.Recontainment:
+                case DamageType.Decontamination:
+                case DamageType.FriendlyFireDetector:
+                case DamageType.PocketDimension:
+                    return;
+            }
 
             if (ev.Target.HasItem(ItemType.SCP500))
             {
                 ev.IsAllowed = false;
                 ev.Target.Health = 2;
                 ev.Target.ArtificialHealth = 0;
-                ev.Target.Hurt(1, ev.DamageType, attackerId: ev.Attacker.Id);
+                ev.Handler.Amount = 1;
+                ev.Handler.Base.ApplyDamage(ev.Target.ReferenceHub);
                 var item = ev.Target.Items.First(x => x.Type == ItemType.SCP500);
                 ev.Target.CurrentItem = item;
                 (item.Base as Scp500).ServerOnUsingCompleted();
