@@ -12,7 +12,7 @@ namespace Mistaken.TAU5
     public class Tau5Shield : Shield
     {
         /// <inheritdoc/>
-        protected override int MaxShield => 200;
+        protected override float MaxShield => 200;
 
         /// <inheritdoc/>
         protected override float ShieldRechargeRate => 5;
