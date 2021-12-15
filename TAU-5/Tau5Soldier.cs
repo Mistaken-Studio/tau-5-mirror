@@ -6,6 +6,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.CustomRoles.API.Features;
@@ -102,6 +103,8 @@ namespace Mistaken.TAU5
         {
             base.RoleAdded(player);
             player.ArtificialHealth = 200;
+            player.EnableEffect<Invigorated>();
+            player.ChangeEffectIntensity<MovementBoost>(50);
             Tau5Shield.Ini<Tau5Shield>(player);
         }
     }
