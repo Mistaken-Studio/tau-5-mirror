@@ -5,6 +5,7 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 
@@ -37,6 +38,7 @@ namespace Mistaken.TAU5
             new Tau5Soldier().TryRegister();
 
             // API.Diagnostics.Module.OnEnable(this);
+            Events.Handlers.CustomEvents.LoadedPlugins += this.CustomEvents_LoadedPlugins;
             base.OnEnabled();
         }
 
@@ -44,9 +46,21 @@ namespace Mistaken.TAU5
         public override void OnDisabled()
         {
             // API.Diagnostics.Module.OnDisable(this);
+            Events.Handlers.CustomEvents.LoadedPlugins -= this.CustomEvents_LoadedPlugins;
             base.OnDisabled();
         }
 
         internal static PluginHandler Instance { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether Custom Hierarchy plugin is available.
+        /// </summary>
+        internal static bool CustomHierarchyAvailable { get; set; } = false;
+
+        private void CustomEvents_LoadedPlugins()
+        {
+            if (Exiled.Loader.Loader.Plugins.Any(x => x.Name == "CustomHierarchy"))
+                CustomHierarchyIntegration.EnableCustomHierarchyIntegration();
+        }
     }
 }
