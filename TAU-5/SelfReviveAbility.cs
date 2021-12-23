@@ -53,7 +53,10 @@ namespace Mistaken.TAU5
             if (!this.Check(ev.Target))
                 return;
 
-            if (ev.Target.Health + (ev.Target.ArtificialHealth * (((AhpStat)ev.Target.ReferenceHub.playerStats.StatModules[1])._activeProcesses.LastOrDefault()?.Efficacy ?? 1)) - ev.Amount >= 1)
+            if (!ev.Target.HasItem(ItemType.SCP500))
+                return;
+
+            if (!ev.Target.WillDie(ev.Amount))
                 return;
 
             switch (ev.Handler.Type)
@@ -67,18 +70,15 @@ namespace Mistaken.TAU5
                     return;
             }
 
-            if (ev.Target.HasItem(ItemType.SCP500))
-            {
-                ev.IsAllowed = false;
-                ev.Target.Health = 2;
-                ev.Target.ArtificialHealth = 0;
-                ev.Handler.Amount = 1;
-                ev.Target.ReferenceHub.playerStats.DealDamage(ev.Handler.Base);
-                var item = ev.Target.Items.First(x => x.Type == ItemType.SCP500);
-                ev.Target.CurrentItem = item;
-                (item.Base as Scp500).ServerOnUsingCompleted();
-                ev.Target.SetGUI(nameof(SelfReviveAbility), PseudoGUIPosition.BOTTOM, "<b>Injected <color=yellow>SCP-500</color> to prevent death</b>", 5);
-            }
+            ev.IsAllowed = false;
+            ev.Target.Health = 2;
+            ev.Target.ArtificialHealth = 0;
+            ev.Handler.Amount = 1;
+            ev.Target.ReferenceHub.playerStats.DealDamage(ev.Handler.Base);
+            var item = ev.Target.Items.First(x => x.Type == ItemType.SCP500);
+            ev.Target.CurrentItem = item;
+            (item.Base as Scp500).ServerOnUsingCompleted();
+            ev.Target.SetGUI(nameof(SelfReviveAbility), PseudoGUIPosition.BOTTOM, "<b>Injected <color=yellow>SCP-500</color> to prevent death</b>", 5);
         }
     }
 }
