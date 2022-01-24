@@ -64,7 +64,7 @@ namespace Mistaken.TAU5
         protected override bool KeepRoleOnDeath { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override bool RemovalKillsPlayer { get; set; } = true;
+        protected override bool RemovalKillsPlayer { get; set; } = false;
 
         /// <inheritdoc/>
         protected override List<string> Inventory { get; set; } = new List<string>
