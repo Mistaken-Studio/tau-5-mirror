@@ -1,4 +1,10 @@
-﻿using Exiled.API.Features;
+// -----------------------------------------------------------------------
+// <copyright file="CustomHierarchyIntegration.cs" company="Mistaken">
+// Copyright (c) Mistaken. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using Exiled.API.Features;
 using Mistaken.API.CustomRoles;
 using static Mistaken.CustomHierarchy.HierarchyHandler;
 
