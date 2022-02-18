@@ -4,15 +4,13 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
-using Exiled.API.Features;
 using Exiled.CustomRoles.API.Features;
 using InventorySystem.Items.Usables;
-using MEC;
 using Mistaken.API.Extensions;
 using Mistaken.API.GUI;
+using PlayerStatsSystem;
 
 namespace Mistaken.TAU5
 {
@@ -50,13 +48,8 @@ namespace Mistaken.TAU5
 
         private static SelfReviveAbility instance;
 
-        private readonly HashSet<Player> ignored = new HashSet<Player>();
-
         private void Player_Hurting(Exiled.Events.EventArgs.HurtingEventArgs ev)
         {
-            if (!this.ignored.Contains(ev.Target))
-                return;
-
             if (!this.Check(ev.Target))
                 return;
 
@@ -78,11 +71,9 @@ namespace Mistaken.TAU5
             }
 
             ev.IsAllowed = false;
-            ev.Target.Health = 2;
+            ev.Target.Health = 50;
             ev.Target.ArtificialHealth = 0;
             ev.Handler.Amount = 1;
-            this.ignored.Add(ev.Target);
-            Timing.CallDelayed(5, () => this.ignored.Remove(ev.Target));
             ev.Target.ReferenceHub.playerStats.DealDamage(ev.Handler.Base);
             var item = ev.Target.Items.First(x => x.Type == ItemType.SCP500);
             ev.Target.CurrentItem = item;
