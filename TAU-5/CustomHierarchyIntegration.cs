@@ -6,6 +6,7 @@
 
 using Exiled.API.Features;
 using Mistaken.API.CustomRoles;
+using System;
 using static Mistaken.CustomHierarchy.HierarchyHandler;
 
 namespace Mistaken.TAU5
@@ -24,7 +25,7 @@ namespace Mistaken.TAU5
                     int.MaxValue,
                     (Player p1, Player p2) =>
                     {
-                        if (!(p1.Team == Team.MTF && p2.Team == Team.MTF))
+                        if (!(p1.Role.Team == Team.MTF && p2.Role.Team == Team.MTF))
                             return CompareResult.NO_ACTION;
                         if (tau.Check(p1) || tau.Check(p2))
                             return CompareResult.SAME_RANK;

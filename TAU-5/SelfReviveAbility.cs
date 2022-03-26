@@ -6,6 +6,7 @@
 
 using System.Linq;
 using Exiled.API.Enums;
+using Exiled.API.Features.Attributes;
 using Exiled.CustomRoles.API.Features;
 using InventorySystem.Items.Usables;
 using Mistaken.API.Extensions;
@@ -15,6 +16,7 @@ using PlayerStatsSystem;
 namespace Mistaken.TAU5
 {
     /// <inheritdoc/>
+    [CustomAbility]
     public class SelfReviveAbility : PassiveAbility
     {
         /// <inheritdoc/>
@@ -22,15 +24,6 @@ namespace Mistaken.TAU5
 
         /// <inheritdoc/>
         public override string Description { get; set; } = "When player has SCP-500 and dies he will use SCP-500 instantly";
-
-        internal static SelfReviveAbility Register()
-        {
-            if (instance != null)
-                return instance;
-            instance = new SelfReviveAbility();
-            instance.TryRegister();
-            return instance;
-        }
 
         /// <inheritdoc/>
         protected override void SubscribeEvents()
@@ -40,13 +33,11 @@ namespace Mistaken.TAU5
         }
 
         /// <inheritdoc/>
-        protected override void UnSubscribeEvents()
+        protected override void UnsubscribeEvents()
         {
-            base.UnSubscribeEvents();
+            base.UnsubscribeEvents();
             Exiled.Events.Handlers.Player.Hurting -= this.Player_Hurting;
         }
-
-        private static SelfReviveAbility instance;
 
         private void Player_Hurting(Exiled.Events.EventArgs.HurtingEventArgs ev)
         {
@@ -73,7 +64,7 @@ namespace Mistaken.TAU5
             ev.IsAllowed = false;
             ev.Target.Health = 50;
             ev.Target.ArtificialHealth = 0;
-            ev.Handler.Amount = 1;
+            ev.Handler.DealtHealthDamage = 1; // może być źle
             ev.Target.ReferenceHub.playerStats.DealDamage(ev.Handler.Base);
             var item = ev.Target.Items.First(x => x.Type == ItemType.SCP500);
             ev.Target.CurrentItem = item;

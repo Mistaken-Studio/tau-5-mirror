@@ -27,7 +27,7 @@ namespace Mistaken.TAU5
         public override PluginPriority Priority => PluginPriority.Default;
 
         /// <inheritdoc/>
-        public override Version RequiredExiledVersion => new Version(4, 1, 2);
+        public override Version RequiredExiledVersion => new Version(5, 0, 0);
 
         /// <inheritdoc/>
         public override void OnEnabled()
@@ -35,7 +35,6 @@ namespace Mistaken.TAU5
             Instance = this;
 
             // new Handler(this);
-            new Tau5Soldier().TryRegister();
 
             // API.Diagnostics.Module.OnEnable(this);
             Events.Handlers.CustomEvents.LoadedPlugins += this.CustomEvents_LoadedPlugins;

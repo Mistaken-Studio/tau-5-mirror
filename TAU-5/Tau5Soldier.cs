@@ -5,22 +5,17 @@
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Linq;
 using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Attributes;
 using Exiled.CustomRoles.API.Features;
-using InventorySystem.Items.Armor;
-using Mistaken.API;
 using Mistaken.API.CustomRoles;
-using Mistaken.API.Extensions;
-using Mistaken.API.GUI;
-using Mistaken.RoundLogger;
-using Respawning;
 
 namespace Mistaken.TAU5
 {
     /// <inheritdoc/>
+    [CustomRole(RoleType.NtfCaptain)]
     public class Tau5Soldier : MistakenCustomRole
     {
         /// <inheritdoc/>
@@ -41,7 +36,32 @@ namespace Mistaken.TAU5
         /// <inheritdoc/>
         public override List<CustomAbility> CustomAbilities { get; set; } = new List<CustomAbility>
         {
-            SelfReviveAbility.Register(),
+            CustomAbility.Get("SelfReviveAbility"),
+        };
+
+        /// <inheritdoc/>
+        public override string CustomInfo { get; set; }
+
+        /// <inheritdoc/>
+        public override bool KeepInventoryOnSpawn { get; set; } = false;
+
+        /// <inheritdoc/>
+        public override bool KeepRoleOnDeath { get; set; } = false;
+
+        /// <inheritdoc/>
+        public override bool RemovalKillsPlayer { get; set; } = false;
+
+        /// <inheritdoc/>
+        public override List<string> Inventory { get; set; } = new List<string>
+        {
+            ItemType.GunE11SR.ToString(),
+            ItemType.GunShotgun.ToString(),
+            ItemType.ArmorHeavy.ToString(),
+            ItemType.SCP500.ToString(),
+            ItemType.Radio.ToString(),
+            ItemType.Medkit.ToString(),
+            ItemType.Medkit.ToString(),
+            ItemType.GrenadeHE.ToString(),
         };
 
         /// <inheritdoc/>
@@ -56,28 +76,6 @@ namespace Mistaken.TAU5
             KeycardPermissions.ContainmentLevelOne |
             KeycardPermissions.ContainmentLevelTwo |
             KeycardPermissions.ContainmentLevelThree;
-
-        /// <inheritdoc/>
-        protected override bool KeepInventoryOnSpawn { get; set; } = false;
-
-        /// <inheritdoc/>
-        protected override bool KeepRoleOnDeath { get; set; } = false;
-
-        /// <inheritdoc/>
-        protected override bool RemovalKillsPlayer { get; set; } = false;
-
-        /// <inheritdoc/>
-        protected override List<string> Inventory { get; set; } = new List<string>
-        {
-            ItemType.GunE11SR.ToString(),
-            ItemType.GunShotgun.ToString(),
-            ItemType.ArmorHeavy.ToString(),
-            ItemType.SCP500.ToString(),
-            ItemType.Radio.ToString(),
-            ItemType.Medkit.ToString(),
-            ItemType.Medkit.ToString(),
-            ItemType.GrenadeHE.ToString(),
-        };
 
         /// <inheritdoc/>
         protected override bool SetLatestUnitName => true;
