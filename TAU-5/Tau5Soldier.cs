@@ -36,11 +36,8 @@ namespace Mistaken.TAU5
         /// <inheritdoc/>
         public override List<CustomAbility> CustomAbilities { get; set; } = new List<CustomAbility>
         {
-            CustomAbility.Get("SelfReviveAbility"),
+            CustomAbility.Get("Self Revive"),
         };
-
-        /// <inheritdoc/>
-        public override string CustomInfo { get; set; }
 
         /// <inheritdoc/>
         public override bool KeepInventoryOnSpawn { get; set; } = false;
