@@ -4,9 +4,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
 using Exiled.API.Features;
 using Mistaken.API.CustomRoles;
-using System;
 using static Mistaken.CustomHierarchy.HierarchyHandler;
 
 namespace Mistaken.TAU5
