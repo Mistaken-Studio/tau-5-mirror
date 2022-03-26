@@ -65,7 +65,7 @@ namespace Mistaken.TAU5
         };
 
         /// <inheritdoc/>
-        protected override KeycardPermissions BuiltInPermissions =>
+        public override KeycardPermissions BuiltInPermissions =>
             KeycardPermissions.ExitGates |
             KeycardPermissions.AlphaWarhead |
             KeycardPermissions.Intercom |
@@ -78,13 +78,13 @@ namespace Mistaken.TAU5
             KeycardPermissions.ContainmentLevelThree;
 
         /// <inheritdoc/>
-        protected override bool SetLatestUnitName => true;
+        public override bool SetLatestUnitName => true;
 
         /// <inheritdoc/>
-        protected override bool InfiniteAmmo => true;
+        public override bool InfiniteAmmo => true;
 
         /// <inheritdoc/>
-        protected override Dictionary<ItemType, ushort> Ammo => new Dictionary<ItemType, ushort>
+        public override Dictionary<ItemType, ushort> Ammo => new Dictionary<ItemType, ushort>
         {
             { ItemType.Ammo556x45, 1 },
             { ItemType.Ammo9x19, 1 },
@@ -94,7 +94,7 @@ namespace Mistaken.TAU5
         };
 
         /// <inheritdoc/>
-        protected override string DisplayName => "<color=#C00>Żołnierz Tau-5 Samsara</color>";
+        public override string DisplayName => "<color=#C00>Żołnierz Tau-5 Samsara</color>";
 
         /// <inheritdoc/>
         protected override void RoleAdded(Player player)
