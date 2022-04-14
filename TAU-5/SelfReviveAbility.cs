@@ -4,8 +4,10 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.API.Features.Attributes;
 using Exiled.CustomRoles.API.Features;
 using InventorySystem.Items.Usables;
@@ -29,6 +31,7 @@ namespace Mistaken.TAU5
         protected override void SubscribeEvents()
         {
             base.SubscribeEvents();
+            Exiled.Events.Handlers.Server.WaitingForPlayers += this.Server_WaitingForPlayers;
             Exiled.Events.Handlers.Player.Hurting += this.Player_Hurting;
         }
 
@@ -36,11 +39,25 @@ namespace Mistaken.TAU5
         protected override void UnsubscribeEvents()
         {
             base.UnsubscribeEvents();
+            Exiled.Events.Handlers.Server.WaitingForPlayers -= this.Server_WaitingForPlayers;
             Exiled.Events.Handlers.Player.Hurting -= this.Player_Hurting;
+        }
+
+        private readonly HashSet<Player> revivedPlayers = new HashSet<Player>();
+
+        private void Server_WaitingForPlayers()
+        {
+            this.revivedPlayers.Clear();
         }
 
         private void Player_Hurting(Exiled.Events.EventArgs.HurtingEventArgs ev)
         {
+            if (this.revivedPlayers.Contains(ev.Target))
+            {
+                this.revivedPlayers.Remove(ev.Target);
+                return;
+            }
+
             if (!this.Check(ev.Target))
                 return;
 
@@ -58,9 +75,11 @@ namespace Mistaken.TAU5
                 case DamageType.Decontamination:
                 case DamageType.FriendlyFireDetector:
                 case DamageType.PocketDimension:
+                case DamageType.Falldown:
                     return;
             }
 
+            this.revivedPlayers.Add(ev.Target);
             ev.IsAllowed = false;
             ev.Target.Health = 50;
             ev.Target.ArtificialHealth = 0;
