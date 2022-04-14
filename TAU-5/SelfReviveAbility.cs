@@ -53,10 +53,7 @@ namespace Mistaken.TAU5
         private void Player_Hurting(Exiled.Events.EventArgs.HurtingEventArgs ev)
         {
             if (this.revivedPlayers.Contains(ev.Target))
-            {
-                this.revivedPlayers.Remove(ev.Target);
                 return;
-            }
 
             if (!this.Check(ev.Target))
                 return;
@@ -89,6 +86,7 @@ namespace Mistaken.TAU5
             ev.Target.CurrentItem = item;
             (item.Base as Scp500).ServerOnUsingCompleted();
             ev.Target.SetGUI(nameof(SelfReviveAbility), PseudoGUIPosition.BOTTOM, "<b>Injected <color=yellow>SCP-500</color> to prevent death</b>", 5);
+            this.revivedPlayers.Remove(ev.Target);
         }
     }
 }
