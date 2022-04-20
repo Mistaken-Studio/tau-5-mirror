@@ -5,22 +5,17 @@
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Linq;
 using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Attributes;
 using Exiled.CustomRoles.API.Features;
-using InventorySystem.Items.Armor;
-using Mistaken.API;
 using Mistaken.API.CustomRoles;
-using Mistaken.API.Extensions;
-using Mistaken.API.GUI;
-using Mistaken.RoundLogger;
-using Respawning;
 
 namespace Mistaken.TAU5
 {
     /// <inheritdoc/>
+    [CustomRole(RoleType.NtfCaptain)]
     public class Tau5Soldier : MistakenCustomRole
     {
         /// <inheritdoc/>
@@ -41,33 +36,20 @@ namespace Mistaken.TAU5
         /// <inheritdoc/>
         public override List<CustomAbility> CustomAbilities { get; set; } = new List<CustomAbility>
         {
-            SelfReviveAbility.Register(),
+            CustomAbility.Get("Self Revive"),
         };
 
         /// <inheritdoc/>
-        protected override KeycardPermissions BuiltInPermissions =>
-            KeycardPermissions.ExitGates |
-            KeycardPermissions.AlphaWarhead |
-            KeycardPermissions.Intercom |
-            KeycardPermissions.Checkpoints |
-            KeycardPermissions.ArmoryLevelOne |
-            KeycardPermissions.ArmoryLevelTwo |
-            KeycardPermissions.ArmoryLevelThree |
-            KeycardPermissions.ContainmentLevelOne |
-            KeycardPermissions.ContainmentLevelTwo |
-            KeycardPermissions.ContainmentLevelThree;
+        public override bool KeepInventoryOnSpawn { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override bool KeepInventoryOnSpawn { get; set; } = false;
+        public override bool KeepRoleOnDeath { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override bool KeepRoleOnDeath { get; set; } = false;
+        public override bool RemovalKillsPlayer { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override bool RemovalKillsPlayer { get; set; } = false;
-
-        /// <inheritdoc/>
-        protected override List<string> Inventory { get; set; } = new List<string>
+        public override List<string> Inventory { get; set; } = new List<string>
         {
             ItemType.GunE11SR.ToString(),
             ItemType.GunShotgun.ToString(),
@@ -80,13 +62,26 @@ namespace Mistaken.TAU5
         };
 
         /// <inheritdoc/>
-        protected override bool SetLatestUnitName => true;
+        public override KeycardPermissions BuiltInPermissions =>
+            KeycardPermissions.ExitGates |
+            KeycardPermissions.AlphaWarhead |
+            KeycardPermissions.Intercom |
+            KeycardPermissions.Checkpoints |
+            KeycardPermissions.ArmoryLevelOne |
+            KeycardPermissions.ArmoryLevelTwo |
+            KeycardPermissions.ArmoryLevelThree |
+            KeycardPermissions.ContainmentLevelOne |
+            KeycardPermissions.ContainmentLevelTwo |
+            KeycardPermissions.ContainmentLevelThree;
 
         /// <inheritdoc/>
-        protected override bool InfiniteAmmo => true;
+        public override bool SetLatestUnitName => true;
 
         /// <inheritdoc/>
-        protected override Dictionary<ItemType, ushort> Ammo => new Dictionary<ItemType, ushort>
+        public override bool InfiniteAmmo => true;
+
+        /// <inheritdoc/>
+        public override Dictionary<ItemType, ushort> Ammo => new Dictionary<ItemType, ushort>
         {
             { ItemType.Ammo556x45, 1 },
             { ItemType.Ammo9x19, 1 },
@@ -96,7 +91,7 @@ namespace Mistaken.TAU5
         };
 
         /// <inheritdoc/>
-        protected override string DisplayName => "<color=#C00>Żołnierz Tau-5 Samsara</color>";
+        public override string DisplayName => "<color=#C00>Żołnierz Tau-5 Samsara</color>";
 
         /// <inheritdoc/>
         protected override void RoleAdded(Player player)
