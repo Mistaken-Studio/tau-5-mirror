@@ -61,7 +61,7 @@ namespace Mistaken.TAU5
             if (!ev.Target.HasItem(ItemType.SCP500))
                 return;
 
-            if (!ev.Target.WillDie(ev.Handler.Base))
+            if (!ev.Target.WillDie((StandardDamageHandler)ev.Handler.Base))
                 return;
 
             switch (ev.Handler.Type)
