@@ -8,22 +8,16 @@ using Mistaken.API.Shield;
 
 namespace Mistaken.TAU5
 {
-    /// <inheritdoc/>
-    public class Tau5Shield : Shield
+    internal sealed class Tau5Shield : Shield
     {
-        /// <inheritdoc/>
-        protected override float MaxShield => 200;
+        protected override float MaxShield => 150f;
 
-        /// <inheritdoc/>
-        protected override float ShieldRechargeRate => 5;
+        protected override float ShieldRechargeRate => 5f;
 
-        /// <inheritdoc/>
-        protected override float ShieldEffectivnes => .8f;
+        protected override float ShieldEffectivnes => 0.8f;
 
-        /// <inheritdoc/>
-        protected override float TimeUntilShieldRecharge => 30;
+        protected override float TimeUntilShieldRecharge => 30f;
 
-        /// <inheritdoc/>
         protected override float ShieldDropRateOnOverflow => 0f;
     }
 }

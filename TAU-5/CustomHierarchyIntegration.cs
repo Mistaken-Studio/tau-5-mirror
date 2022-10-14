@@ -4,10 +4,11 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
 using Exiled.API.Features;
 using Mistaken.API.CustomRoles;
 using static Mistaken.CustomHierarchy.HierarchyHandler;
+
+#pragma warning disable SA1118 // Parameter should not span multiple lines
 
 namespace Mistaken.TAU5
 {
@@ -16,9 +17,8 @@ namespace Mistaken.TAU5
         internal static void EnableCustomHierarchyIntegration()
         {
             var tau = MistakenCustomRoles.TAU_5.Get();
-            PluginHandler.CustomHierarchyAvailable = true;
             Log.Debug("Enabling CustomHierarchy integration.", PluginHandler.Instance.Config.VerbouseOutput);
-#pragma warning disable SA1118 // Parameter should not span multiple lines
+
             CustomPlayerComperers.Add(
                 "tau5_comparer",
                 (
@@ -32,8 +32,8 @@ namespace Mistaken.TAU5
 
                         return CompareResult.NO_ACTION;
                     }));
+
             Log.Debug("Enabled CustomHierarchy integration.", PluginHandler.Instance.Config.VerbouseOutput);
-#pragma warning restore SA1118 // Parameter should not span multiple lines
         }
     }
 }
