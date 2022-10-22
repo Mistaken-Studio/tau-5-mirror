@@ -4,10 +4,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System.Collections.Generic;
+/*
 using System.Linq;
 using Exiled.API.Enums;
-using Exiled.API.Features;
 using Exiled.API.Features.Attributes;
 using Exiled.CustomRoles.API.Features;
 using InventorySystem.Items.Usables;
@@ -19,7 +18,7 @@ namespace Mistaken.TAU5
 {
     /// <inheritdoc/>
     [CustomAbility]
-    public class SelfReviveAbility : PassiveAbility
+    public sealed class SelfReviveAbility : PassiveAbility
     {
         /// <inheritdoc/>
         public override string Name { get; set; } = "Self Revive";
@@ -30,31 +29,19 @@ namespace Mistaken.TAU5
         /// <inheritdoc/>
         protected override void SubscribeEvents()
         {
-            base.SubscribeEvents();
-            Exiled.Events.Handlers.Server.WaitingForPlayers += this.Server_WaitingForPlayers;
             Exiled.Events.Handlers.Player.Hurting += this.Player_Hurting;
+            base.SubscribeEvents();
         }
 
         /// <inheritdoc/>
         protected override void UnsubscribeEvents()
         {
-            base.UnsubscribeEvents();
-            Exiled.Events.Handlers.Server.WaitingForPlayers -= this.Server_WaitingForPlayers;
             Exiled.Events.Handlers.Player.Hurting -= this.Player_Hurting;
-        }
-
-        private readonly HashSet<Player> revivedPlayers = new HashSet<Player>();
-
-        private void Server_WaitingForPlayers()
-        {
-            this.revivedPlayers.Clear();
+            base.UnsubscribeEvents();
         }
 
         private void Player_Hurting(Exiled.Events.EventArgs.HurtingEventArgs ev)
         {
-            if (this.revivedPlayers.Contains(ev.Target))
-                return;
-
             if (!this.Check(ev.Target))
                 return;
 
@@ -68,25 +55,28 @@ namespace Mistaken.TAU5
             {
                 case DamageType.Crushed:
                 case DamageType.Warhead:
-                case DamageType.Recontainment:
                 case DamageType.Decontamination:
                 case DamageType.FriendlyFireDetector:
                 case DamageType.PocketDimension:
                 case DamageType.Falldown:
+                case DamageType.SeveredHands:
+                case DamageType.FemurBreaker:
+                case DamageType.ParticleDisruptor:
+                case DamageType.Tesla:
+                case DamageType.MicroHid:
                     return;
             }
 
-            this.revivedPlayers.Add(ev.Target);
             ev.IsAllowed = false;
             ev.Target.Health = 50;
             ev.Target.ArtificialHealth = 0;
             ev.Handler.DealtHealthDamage = 1; // może być źle
             ev.Target.ReferenceHub.playerStats.DealDamage(ev.Handler.Base);
             var item = ev.Target.Items.First(x => x.Type == ItemType.SCP500);
-            ev.Target.CurrentItem = item;
-            (item.Base as Scp500).ServerOnUsingCompleted();
+            (item.Base as UsableItem).ServerOnUsingCompleted();
             ev.Target.SetGUI(nameof(SelfReviveAbility), PseudoGUIPosition.BOTTOM, "<b>Injected <color=yellow>SCP-500</color> to prevent death</b>", 5);
-            this.revivedPlayers.Remove(ev.Target);
+            this.Players.Remove(ev.Target);
         }
     }
 }
+*/
